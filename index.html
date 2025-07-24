@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EchoRift Studios</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #0e0e1a;
+      color: #cfd8ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .logo {
+      width: 140px;
+      height: auto;
+      filter: drop-shadow(0 0 6px #8a3ffc);
+      margin-bottom: 15px;
+      animation: bounce 2.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    h1.glow {
+      font-size: 3rem;
+      color: #8a3ffc;
+      text-shadow: 0 0 5px #8a3ffc, 0 0 15px #8a3ffc, 0 0 30px #8a3ffc;
+      margin-bottom: 0.25em;
+    }
+    .tagline {
+      font-style: italic;
+      font-weight: 500;
+      color: #b3b3ffcc;
+    }
+    main {
+      max-width: 750px;
+      width: 100%;
+    }
+    section {
+      background: #1b1b3a;
+      padding: 20px 25px;
+      border-radius: 12px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.7s ease-out;
+      box-shadow: 0 0 12px #5c3ffc44;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      color: #b9a6ff;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #dddfffcc;
+    }
+    a.btn {
+      display: inline-block;
+      background: #8a3ffc;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 25px;
+      box-shadow: 0 4px 15px #8a3ffc88;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    a.btn:hover {
+      background: #6a29cc;
+      box-shadow: 0 6px 20px #6a29cccc;
+    }
+    .credits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .credit {
+      background: #2a2a4d;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 0 8px #5c3ffc55;
+    }
+    .credit:hover {
+      transform: scale(1.05);
+    }
+    .credit img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      border: 2px solid #8a3ffc;
+    }
+    .credit p {
+      font-size: 0.95rem;
+      color: #eee;
+    }
+    .credit strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      color: #b9a6ff;
+    }
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #1b1b3a;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px #8a3ffc88;
+      position: relative;
+    }
+    .modal-content h3 {
+      color: #cfd8ff;
+      margin-bottom: 10px;
+    }
+    .modal-content p {
+      color: #ddd;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      background: transparent;
+      color: #aaa;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    /* Contact Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .contact-form label {
+      font-weight: 600;
+      color: #b9a6ff;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      padding: 10px 12px;
+      background: #222244;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: #888;
+    }
+    .contact-form button {
+      background: #8a3ffc;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background: #6a29cc;
+    }
+    /* Hidden honeypot for spam bots */
+    .honeypot {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="EchoRift Studios Logo" class="logo" />
+    <h1 class="glow">EchoRift Studios</h1>
+    <p class="tagline">Crafting games, animations, and ideas beyond the Rift</p>
+  </header>
+
+  <main>
+    <section class="fade-in">
+      <h2>🎮 Games We Make</h2>
+      <p>We’re currently developing <em>ApeTech</em> and <em>Ashwood Lodge</em>, blending creativity with immersive VR experiences.</p>
+    </section>
+
+    <section class="fade-in">
+      <h2>🎥 Gorilla Tag Animations</h2>
+      <p>We produce Gorilla Tag animations and profile pictures with style. Want one? Join our Discord community!</p>
+    </section>
+
+    <section class="fade-in">
+      <h2>🔗 Join Us</h2>
+      <a href="https://discord.gg/fqvuVe5emw" class="btn" target="_blank" rel="noopener noreferrer">Join Our Discord</a>
+    </section>
+
+    <section class="fade-in">
+      <h2>🛠️ Credits - ApeTech</h2>
+      <div class="credits">
+        <div class="credit" data-name="Coral" data-role="Main Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
+          <img src="coral.png" alt="Coral" />
+          <p><strong>Coral</strong>Main Developer</p>
+        </div>
+        <div class="credit" data-name="JuneBug" data-role="Artist & Concept Artist" data-bio="Hello! I’m JuneBug, but you can call me June or Bug! I’m a pansexual therian and furry, and I’ve been doing art for basically my whole life.">
+          <img src="junebug.png" alt="JuneBug" />
+          <p><strong>JuneBug</strong>Artist & Concept</p>
+        </div>
+        <div class="credit" data-name="Noah" data-role="Developer" data-bio="Noah is one of the devs behind ApeTech. Helping bring the tech side of our world to life.">
+          <img src="noah.png" alt="Noah" />
+          <p><strong>Noah</strong>Developer</p>
+        </div>
+        <div class="credit" data-name="IHasAFaceLULZ" data-role="Developer" data-bio="IHasAFaceLULZ helps code the chaos behind ApeTech. More info coming soon...">
+          <img src="ihasafacelulz.png" alt="IHasAFaceLULZ" />
+          <p><strong>IHasAFaceLULZ</strong>Developer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-in">
+      <h2>🏚️ Credits - Ashwood Lodge</h2>
+      <div class="credits">
+        <div class="credit" data-name="Coral" data-role="Solo Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
+          <img src="coral.png" alt="Coral" />
+          <p><strong>Coral</strong>Solo Developer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-in">
+      <h2>📬 Contact Us</h2>
+
+      <form action="https://formspree.io/f/xjkoyqwr" method="POST" class="contact-form" id="contactForm">
+        <div>
+          <label><input type="radio" name="contactType" value="email" checked /> Send with Email</label>
+          <label><input type="radio" name="contactType" value="burner" /> Use Burner Contact (Discord/Other)</label>
+        </div>
+
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" required placeholder="Your Name" />
+
+        <div id="emailField">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" placeholder="you@example.com" />
+          <small style="color:#aaa; font-size: 0.85rem;">Your email is private & safe with us.</small>
+        </div>
+
+        <div id="burnerField" style="display:none;">
+          <label for="burnerContact">Discord / Other Contact</label>
+          <input type="text" name="burnerContact" id="burnerContact" placeholder="Your Discord or other contact" />
+          <small style="color:#aaa; font-size: 0.85rem;">Use this if you don't want to share your email.</small>
+        </div>
+
+        <label for="message">Message</label>
+        <textarea name="message" id="message" rows="4" required placeholder="Write your message here..."></textarea>
+
+        <!-- Honeypot field -->
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" />
+
+        <div class="g-recaptcha" data-sitekey="6LfAs40rAAAAAAfVyS5Z9C-x6BIG1rmgaXGE1WHU"></div>
+
+        <button type="submit">Send Message</button>
+      </form>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 EchoRift Studios. Made by Shadow GT aka Coral.</p>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <h3 id="modalName">Name</h3>
+      <p id="modalRole">Role</p>
+      <p id="modalBio">Bio</p>
+    </div>
+  </div>
+
+  <script>
+    // Intersection Observer fade-in
+    const sections = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+
+    // Modal for credits
+    const modal = document.getElementById('modal');
+    const modalName = document.getElementById('modalName');
+    const modalRole = document.getElementById('modalRole');
+    const modalBio = document.getElementById('modalBio');
+    document.querySelectorAll('.credit').forEach(card => {
+      card.addEventListener('click', () => {
+        modalName.textContent = card.dataset.name;
+        modalRole.textContent = card.dataset.role;
+        modalBio.textContent = card.dataset.bio;
+        modal.classList.add('active');
+      });
+    });
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Contact form toggling between email and burner
+    const emailRadio = document.querySelector('input[name="contactType"][value="email"]');
+    const burnerRadio = document.querySelector('input[name="contactType"][value="burner"]');
+    const emailField = document.getElementById('emailField');
+    const burnerField = document.getElementById('burnerField');
+    const emailInput = document.getElementById('email');
+
+    function toggleContactFields() {
+      if (emailRadio.checked) {
+        emailField.style.display = 'block';
+        burnerField.style.display = 'none';
+        emailInput.setAttribute('required', 'required');
+        document.getElementById('burnerContact').removeAttribute('required');
+      } else {
+        emailField.style.display = 'none';
+        burnerField.style.display = 'block';
+        emailInput.removeAttribute('required');
+        document.getElementById('burnerContact').setAttribute('required', 'required');
+      }
+    }
+    emailRadio.addEventListener('change', toggleContactFields);
+    burnerRadio.addEventListener('change', toggleContactFields);
+
+    // Initialize on page load
+    toggleContactFields();
+
+    // Prevent bots by honeypot
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', e => {
+      if (form.website.value) { // honeypot filled = bot
+        e.preventDefault();
+        alert('Spam detected. Submission blocked.');
+      }
+    });
+  </script>
+</body>
+</html>
