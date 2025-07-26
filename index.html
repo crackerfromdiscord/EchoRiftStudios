@@ -47,31 +47,6 @@
         Discover hidden rooms, survive horrors, and escape… if you can.
       </p>
     </section>
-
-    <section class="fade-in">
-      <h2>📩 Contact Us</h2>
-      <form id="contactForm" action="https://formspree.io/f/xjkoyqwr" method="POST">
-        <p>Choose how to contact us:</p>
-        <label><input type="radio" name="contactType" value="email" checked> Email</label>
-        <label><input type="radio" name="contactType" value="burner"> Discord/Other</label>
-
-        <div id="emailField">
-          <input type="email" name="email" id="email" placeholder="Your email" required />
-        </div>
-
-        <div id="burnerField" style="display: none;">
-          <input type="text" name="burnerContact" id="burnerContact" placeholder="Your Discord or contact info" />
-        </div>
-
-        <textarea name="message" required placeholder="Write your message here..."></textarea>
-
-        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" />
-
-        <div class="g-recaptcha" data-sitekey="6LfAs40rAAAAAAfVyS5Z9C-x6BIG1rmgaXGE1WHU"></div>
-
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
   </main>
 
   <footer>
@@ -84,41 +59,12 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
-    sections.forEach(section => observer.observe(section));
 
-    const emailRadio = document.querySelector('input[name="contactType"][value="email"]');
-    const burnerRadio = document.querySelector('input[name="contactType"][value="burner"]');
-    const emailField = document.getElementById('emailField');
-    const burnerField = document.getElementById('burnerField');
-    const emailInput = document.getElementById('email');
-
-    function toggleContactFields() {
-      if (emailRadio.checked) {
-        emailField.style.display = 'block';
-        burnerField.style.display = 'none';
-        emailInput.setAttribute('required', 'required');
-        document.getElementById('burnerContact').removeAttribute('required');
-      } else {
-        emailField.style.display = 'none';
-        burnerField.style.display = 'block';
-        emailInput.removeAttribute('required');
-        document.getElementById('burnerContact').setAttribute('required', 'required');
-      }
-    }
-    emailRadio.addEventListener('change', toggleContactFields);
-    burnerRadio.addEventListener('change', toggleContactFields);
-    toggleContactFields();
-
-    const form = document.getElementById('contactForm');
-    form.addEventListener('submit', e => {
-      if (form.website.value) {
-        e.preventDefault();
-        alert('Spam detected. Submission blocked.');
-      }
+    sections.forEach(section => {
+      observer.observe(section);
     });
   </script>
 </body>
