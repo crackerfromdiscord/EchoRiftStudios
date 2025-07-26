@@ -6,6 +6,123 @@
   <title>EchoRift Studios</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    body {
+      background: #0e0e1a;
+      color: #cfd8ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .logo {
+      width: 140px;
+      height: auto;
+      filter: drop-shadow(0 0 6px #8a3ffc);
+      margin-bottom: 15px;
+    }
+    .glow {
+      font-size: 3rem;
+      color: #8a3ffc;
+      text-shadow: 0 0 5px #8a3ffc, 0 0 15px #8a3ffc;
+      margin-bottom: 0.25em;
+    }
+    .tagline {
+      font-style: italic;
+      color: #b3b3ffcc;
+    }
+    section {
+      background: #1b1b3a;
+      padding: 20px 25px;
+      border-radius: 12px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.7s ease-out;
+      box-shadow: 0 0 12px #5c3ffc44;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .btn {
+      display: inline-block;
+      background: #8a3ffc;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: 25px;
+      box-shadow: 0 4px 15px #8a3ffc88;
+    }
+    .credits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .credit {
+      background: #2a2a4d;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 0 8px #5c3ffc55;
+    }
+    .credit:hover {
+      transform: scale(1.05);
+    }
+    .credit img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      border: 2px solid #8a3ffc;
+    }
+    .credit strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      color: #b9a6ff;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #1b1b3a;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px #8a3ffc88;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      background: transparent;
+      color: #aaa;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -32,26 +149,59 @@
 
     <section class="fade-in">
       <h2>🦍 What is ApeTech?</h2>
-      <p>
-        ApeTech is a Gorilla Tag horror game made by Coral, JuneBug, Noah, and IHasAFaceLULZ.
-        It is currently in its Beta/Alpha stage and doesn't really offer much right now—but when it fully releases,
-        it will have a ton to offer!
-      </p>
+      <p>ApeTech is a Gorilla Tag horror game made by Coral, JuneBug, Noah, and IHasAFaceLULZ. It is currently in its Beta/Alpha stage and doesn't really offer much right now—but when it fully releases, it will have a ton to offer!</p>
     </section>
 
     <section class="fade-in">
       <h2>🏚️ What is Ashwood Lodge?</h2>
-      <p>
-        Ashwood Lodge is a creepy, atmospheric Gorilla Tag-meets-Doors inspired game.
-        You’re an investigator sent to uncover the secrets of a lodge that’s much bigger—and darker—than it seems.
-        Discover hidden rooms, survive horrors, and escape… if you can.
-      </p>
+      <p>Ashwood Lodge is a creepy, atmospheric Gorilla Tag-meets-Doors inspired game. You’re an investigator sent to uncover the secrets of a lodge that’s much bigger—and darker—than it seems. Discover hidden rooms, survive horrors, and escape… if you can.</p>
+    </section>
+
+    <section class="fade-in">
+      <h2>🛠️ Credits - ApeTech</h2>
+      <div class="credits">
+        <div class="credit" data-name="Coral" data-role="Main Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
+          <img src="coral.png" alt="Coral" />
+          <p><strong>Coral</strong>Main Developer</p>
+        </div>
+        <div class="credit" data-name="JuneBug" data-role="Artist & Concept Artist" data-bio="Hello! I’m JuneBug, but you can call me June or Bug! I’m a pansexual therian and furry, and I’ve been doing art for basically my whole life.">
+          <img src="junebug.png" alt="JuneBug" />
+          <p><strong>JuneBug</strong>Artist & Concept</p>
+        </div>
+        <div class="credit" data-name="Noah" data-role="Developer" data-bio="Noah is one of the devs behind ApeTech. Helping bring the tech side of our world to life.">
+          <img src="noah.png" alt="Noah" />
+          <p><strong>Noah</strong>Developer</p>
+        </div>
+        <div class="credit" data-name="IHasAFaceLULZ" data-role="Developer" data-bio="IHasAFaceLULZ helps code the chaos behind ApeTech. More info coming soon...">
+          <img src="ihasafacelulz.png" alt="IHasAFaceLULZ" />
+          <p><strong>IHasAFaceLULZ</strong>Developer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-in">
+      <h2>👁️ Credits - Ashwood Lodge</h2>
+      <div class="credits">
+        <div class="credit" data-name="Coral" data-role="Solo Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
+          <img src="coral.png" alt="Coral" />
+          <p><strong>Coral</strong>Solo Developer</p>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2025 EchoRift Studios. Made by Shadow GT aka Coral.</p>
   </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <h3 id="modalName">Name</h3>
+      <p id="modalRole">Role</p>
+      <p id="modalBio">Bio</p>
+    </div>
+  </div>
 
   <script>
     const sections = document.querySelectorAll('.fade-in');
@@ -62,9 +212,25 @@
         }
       });
     }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
 
-    sections.forEach(section => {
-      observer.observe(section);
+    const modal = document.getElementById('modal');
+    const modalName = document.getElementById('modalName');
+    const modalRole = document.getElementById('modalRole');
+    const modalBio = document.getElementById('modalBio');
+    document.querySelectorAll('.credit').forEach(card => {
+      card.addEventListener('click', () => {
+        modalName.textContent = card.dataset.name;
+        modalRole.textContent = card.dataset.role;
+        modalBio.textContent = card.dataset.bio;
+        modal.classList.add('active');
+      });
+    });
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeModal();
     });
   </script>
 </body>
