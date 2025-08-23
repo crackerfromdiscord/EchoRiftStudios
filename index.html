@@ -157,81 +157,32 @@
       <p>Ashwood Lodge is a creepy, atmospheric Gorilla Tag-meets-Doors inspired game. You’re an investigator sent to uncover the secrets of a lodge that’s much bigger—and darker—than it seems. Discover hidden rooms, survive horrors, and escape… if you can.</p>
     </section>
 
+    <!-- Merged Credits Section -->
     <section class="fade-in">
-      <h2>🛠️ Credits - ApeTech</h2>
+      <h2>👥 Meet Our Devs</h2>
       <div class="credits">
-        <div class="credit" data-name="Coral" data-role="Main Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
+        <!-- Coral -->
+        <div class="credit" data-name="Coral" data-role="Owner/Head Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
           <img src="coral.png" alt="Coral" />
-          <p><strong>Coral</strong>Main Developer</p>
+          <p><strong>Coral</strong>Owner/Head Developer</p>
         </div>
+        <!-- JuneBug -->
         <div class="credit" data-name="JuneBug" data-role="Artist & Concept Artist" data-bio="Hello! I’m JuneBug, but you can call me June or Bug! I’m a pansexual therian and furry, and I’ve been doing art for basically my whole life.">
           <img src="junebug.png" alt="JuneBug" />
           <p><strong>JuneBug</strong>Artist & Concept</p>
         </div>
+        <!-- Noah -->
         <div class="credit" data-name="Noah" data-role="Developer" data-bio="Noah is one of the devs behind ApeTech. Helping bring the tech side of our world to life.">
           <img src="noah.png" alt="Noah" />
           <p><strong>Noah</strong>Developer</p>
         </div>
+        <!-- IHasAFaceLULZ -->
         <div class="credit" data-name="IHasAFaceLULZ" data-role="Developer" data-bio="IHasAFaceLULZ helps code the chaos behind ApeTech. More info coming soon...">
           <img src="ihasafacelulz.png" alt="IHasAFaceLULZ" />
           <p><strong>IHasAFaceLULZ</strong>Developer</p>
         </div>
       </div>
     </section>
-
-    <section class="fade-in">
-      <h2>👁️ Credits - Ashwood Lodge</h2>
-      <div class="credits">
-        <div class="credit" data-name="Coral" data-role="Solo Developer" data-bio="Hey there! I'm Shadow, also known as Abbo or Coral. I've been making games for around 2 years and working in Blender for 3. I'm bi and a proud furry.">
-          <img src="coral.png" alt="Coral" />
-          <p><strong>Coral</strong>Solo Developer</p>
-        </div>
-      </div>
-    </section>
   </main>
-
-  <footer>
-    <p>&copy; 2025 EchoRift Studios. Made by Shadow GT aka Coral.</p>
-  </footer>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()">&times;</button>
-      <h3 id="modalName">Name</h3>
-      <p id="modalRole">Role</p>
-      <p id="modalBio">Bio</p>
-    </div>
-  </div>
-
-  <script>
-    const sections = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(section => observer.observe(section));
-
-    const modal = document.getElementById('modal');
-    const modalName = document.getElementById('modalName');
-    const modalRole = document.getElementById('modalRole');
-    const modalBio = document.getElementById('modalBio');
-    document.querySelectorAll('.credit').forEach(card => {
-      card.addEventListener('click', () => {
-        modalName.textContent = card.dataset.name;
-        modalRole.textContent = card.dataset.role;
-        modalBio.textContent = card.dataset.bio;
-        modal.classList.add('active');
-      });
-    });
-    function closeModal() {
-      modal.classList.remove('active');
-    }
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeModal();
-    });
-  </script>
 </body>
 </html>
